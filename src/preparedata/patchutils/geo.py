@@ -9,6 +9,7 @@ from shapely.geometry import Polygon
 import rasterio.crs
 import geopandas as gpd
 from tqdm import tqdm
+import pandas as pd
 
 from src.preparedata.patchutils import img
 
@@ -48,17 +49,9 @@ def explode_mp(df: GDF) -> GDF:
 
     Adds exploded polygons as rows at the end of the geodataframe and resets its index.
     """
-    outdf = df[df.geom_type == "Polygon"]
-
-    df_mp = df[df.geom_type == "MultiPolygon"]
-    for idx, row in df_mp.iterrows():
-        df_temp = gpd.GeoDataFrame(columns=df_mp.columns)
-        df_temp = df_temp.append([row] * len(row.geometry), ignore_index=True)
-        df_temp.geometry = list(row.geometry)
-        outdf = outdf.append(df_temp, ignore_index=True)
-
-    outdf.reset_index(drop=True, inplace=True)
-    return outdf
+    exploded_gdf = df.explode()
+    exploded_gdf = exploded_gdf.reset_index(drop=True)
+    return exploded_gdf
 
 
 @typechecked
@@ -69,8 +62,8 @@ def keep_biggest_poly(df: GDF) -> GDF:
     row_idxs_mp = df.index[df.geometry.geom_type == "MultiPolygon"].tolist()
     for idx in row_idxs_mp:
         mp = df.loc[idx].geometry
-        poly_areas = [p.area for p in mp]
-        max_area_poly = max(mp, key=lambda p: p.area)
+        poly_areas = [p.area for p in mp.geoms]
+        max_area_poly = max(mp.geoms, key=lambda p: p.area)
         # !TODO: Maxime's comments - max_area_poly = max(poly_areas, key=lambda poly: poly.area) # pick max area polygon
         # !TODO: Maxime's comments - the above replaces both of the lines above 89-90
         df.loc[idx, "geometry"] = max_area_poly

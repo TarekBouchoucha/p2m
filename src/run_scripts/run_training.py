@@ -153,7 +153,7 @@ def main(model_name, seed, group, save_path, save_images, baseline):
     model_module = importlib.import_module(
         "src.segmentation.models.{}.model".format(model_name)
     )
-
+    
     model = model_module.Model(hparams)
     model.configuration = configuration_dict
 
@@ -163,16 +163,16 @@ def main(model_name, seed, group, save_path, save_images, baseline):
 
     # Pytorch lightning trainer
     trainer = Trainer(
-        gpus=1,
+        #gpus=0,
         weights_summary="top",
         max_epochs=50,
-        logger=wandb_logger,
+        #logger=wandb_logger,
         early_stop_callback=early_stop_callback,
         num_sanity_val_steps=0,
         callbacks=[LearningRateLogger()] if hparams["scheduler_type"] != None else None,
         default_root_dir=save_path,
     )
-
+    print(hparams)
     trainer.fit(model, train_dataloader=train, val_dataloaders=valid)
 
     del model

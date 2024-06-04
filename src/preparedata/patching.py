@@ -38,8 +38,10 @@ def import_shapefile_for_patches(
     sh_df = sh_df.assign(
         geometry=lambda _df: _df.geometry.simplify(5, preserve_topology=True)
     )
+    
     sh_df = geo.buffer_zero(sh_df)
-    sh_df = geo.reduce_precision(sh_df, precision=4)
+    
+    #sh_df = geo.reduce_precision(sh_df, precision=4)
     sh_df = sh_df.reset_index(drop=True)
     sh_df = sh_df.assign(fid=lambda _df: range(0, len(_df.index)))
 

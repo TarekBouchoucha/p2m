@@ -101,7 +101,7 @@ def instance_mask_for_polygons(polygons, img_size: Tuple[int, int]) -> np.ndarra
         return img_mask
     # function to round and convert to int
     int_coords = lambda x: np.array(x).round().astype(np.int32)
-    for i, poly in enumerate(polygons):
+    for i, poly in enumerate(polygons.geoms):
         exteriors = [int_coords(poly.exterior.coords)]
         cv2.fillPoly(img_mask, exteriors, i + 1)
     return img_mask

@@ -157,9 +157,9 @@ texttable==1.6.2
 threadpoolctl==2.1.0
 tifffile==2020.6.3
 toml==0.10.1
-torch==1.5.1
+torch
 torchbearer==0.5.1
-torchvision==0.6.1
+torchvision
 tornado==6.0.4
 tqdm==4.46.0
 traitlets==4.3.3

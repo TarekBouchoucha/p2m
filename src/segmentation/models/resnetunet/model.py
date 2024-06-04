@@ -23,7 +23,7 @@ class Model(pl.LightningModule):
         :param hparams: task specific parameters indexed by task name
         """
         super(Model, self).__init__()
-        self.hparams = hparams
+        self.__class__.hparams = hparams
         self.encoder, self.decoder = self.get_model(
             hparams["encoder_name"],
             bool(hparams["pretrained"]),
@@ -142,7 +142,9 @@ class Model(pl.LightningModule):
                     optimizer, mode="min", patience=5
                 )
             elif self.hparams["scheduler_type"] == "step":
-                scheduler = lr_scheduler.MultiStepLR(optimizer, milestones=[30, 40, 50])
+                scheduler = lr_scheduler.ReduceLROnPlateau(
+                    optimizer, mode="min", patience=5
+                )
             else:
                 raise ValueError(
                     "Unspecified scheduler type: {}".format(

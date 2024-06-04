@@ -31,7 +31,7 @@ def create_source_paths(list_of_bands, path_to_scene):
     for band in list_of_bands:
         # create dictionary with paths to all files of each band
         dict_source_paths[band] = glob.glob(
-            path_to_scene + "/*/*/*/*/" + band + "_sur.tif"
+            path_to_scene + "/*/*/*/*/" + band + ".tif"
         )
         # store the metadata of one image of each band
         with rasterio.open(dict_source_paths[band][0]) as opened_band:
@@ -60,8 +60,9 @@ def create_target_paths(
     # create date list for the selected scene, create target files for stacking images
 
     for path in dict_source_paths[list_of_bands[0]]:
-        date_index = path.index("201")
-        date_end_index = path.index("/0")
+        print("path :",path)
+        date_index = path.index("202")
+        date_end_index = path.index("\\0")
         # create dict with source paths and dates
         dict_of_dates[path] = path[date_index:date_end_index]
         # create target path with date and bands_string
@@ -104,7 +105,7 @@ def stack_bands(source_path, mgrs_coordinate, save_path):
     """
 
     # selecting the SWIR, NIR and Green band names from the remote sensing dataset
-    dict_of_bands = {"SWIR-band": "B12", "NIR-band": "B8A", "Green-band": "B03"}
+    dict_of_bands = {"SWIR-band": "B11", "NIR-band": "B8A", "Green-band": "B03"}
     list_of_bands = list(dict_of_bands.values())
 
     path_to_scene = os.path.join(source_path, mgrs_coordinate)
