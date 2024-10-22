@@ -1,4 +1,0 @@
-[default]
-entity = prhuppertz
-project = burned_area_detection
-base_url = https://api.wandb.ai
