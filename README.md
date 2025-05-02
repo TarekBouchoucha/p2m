@@ -1,8 +1,8 @@
 # Burned Area Detection with Deep Learning and Sentinel-2
+
+
 A pipeline to process Sentinel-2 remote sensing data and train a neural network for burned area detection.
 
-
-details of the work containing the steps and results are in p2m_report.pdf and presentation_p2m.pptx
 
 
 The pipeline is divided into four processing stages (1.-4.) and one training and validation stage (5.):
@@ -13,3 +13,7 @@ The pipeline is divided into four processing stages (1.-4.) and one training and
 5. run training: Training using YOLOv8 (code in p2m.ipynb). you can directly run p2m.ipnyb to import the data from roboflow and then train the model and visualize the results.
 
 the model is deployed using streamlit where you can directly use the weights of the trained model.
+![image](https://github.com/user-attachments/assets/4da5d64c-7cf9-4070-a453-9dbd47e43adf)
+![image](https://github.com/user-attachments/assets/c2747e22-5b82-4cc6-ad60-53db3c8504a6)
+![image](https://github.com/user-attachments/assets/7c01d69e-ff12-48bf-86fb-74244f4b579e)
+![image](https://github.com/user-attachments/assets/66334255-b253-49b8-b2fc-afd8045865db)
